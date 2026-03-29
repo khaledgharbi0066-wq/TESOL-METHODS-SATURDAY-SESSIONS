@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="TESOL">
+<meta name="theme-color" content="#1a1410">
+<title>TESOL Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+:root {
+  --bg:       #0f0d0b;
+  --surface:  #1c1814;
+  --card:     #231f1a;
+  --border:   rgba(255,255,255,0.07);
+  --rose:     #d4826a;
+  --rose-dim: rgba(212,130,106,0.15);
+  --sage:     #8aab88;
+  --sage-dim: rgba(138,171,136,0.15);
+  --cream:    #f0e8dc;
+  --muted:    rgba(240,232,220,0.45);
+  --faint:    rgba(240,232,220,0.18);
+  --tab-h:    68px;
+  --safe-top: env(safe-area-inset-top, 44px);
+  --safe-bot: env(safe-area-inset-bottom, 20px);
+}
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--cream);
+  font-family: 'Outfit', sans-serif;
+  font-size: 15px;
+  overscroll-behavior: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── SHELL ── */
+.app {
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ── STATUS / TOPBAR ── */
+.topbar {
+  flex-shrink: 0;
+  padding: calc(var(--safe-top) + 10px) 20px 14px;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  z-index: 10;
+}
+.topbar-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--cream);
+  letter-spacing: 0.3px;
+}
+.topbar-sub {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.5px;
+}
+.topbar-badge {
+  background: var(--rose-dim);
+  border: 1px solid rgba(212,130,106,0.3);
+  color: var(--rose);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 5px 10px;
+  border-radius: 20px;
+}
+
+/* ── SCROLL AREA ── */
+.scroll-area {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+}
+.scroll-area::-webkit-scrollbar { display: none; }
+
+/* ── PAGES ── */
+.page { display: none; padding: 20px 16px calc(var(--tab-h) + var(--safe-bot) + 24px); }
+.page.active { display: block; animation: slideUp 0.3s cubic-bezier(0.32,0.72,0,1); }
+@keyframes slideUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+
+/* ── SECTION TITLE ── */
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--cream);
+  margin-bottom: 4px;
+  line-height: 1.1;
+}
+.section-sub {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 22px;
+  letter-spacing: 0.3px;
+}
+
+/* ── HERO CARD (cover) ── */
+.hero-card {
+  background: linear-gradient(145deg, #2a1f18 0%, #1a1208 50%, #0f1a0e 100%);
+  border-radius: 22px;
+  padding: 28px 24px 24px;
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.hero-card::before {
+  content:'';
+  position:absolute;
+  top:-40px; right:-40px;
+  width:160px; height:160px;
+  border-radius:50%;
+  background: radial-gradient(circle, rgba(212,130,106,0.2) 0%, transparent 70%);
+  pointer-events:none;
+}
+.hero-card::after {
+  content:'';
+  position:absolute;
+  bottom:-30px; left:20px;
+  width:120px; height:120px;
+  border-radius:50%;
+  background: radial-gradient(circle, rgba(138,171,136,0.15) 0%, transparent 70%);
+  pointer-events:none;
+}
+.hero-eyebrow {
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--rose);
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.hero-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1.0;
+  color: var(--cream);
+  margin-bottom: 4px;
+}
+.hero-role {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 24px;
+}
+.hero-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+}
+.hero-stat {
+  background: rgba(255,255,255,0.05);
+  border-radius: 12px;
+  padding: 10px 10px 8px;
+  text-align: center;
+  border: 1px solid var(--border);
+}
+.hero-stat .num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--rose);
+  line-height: 1;
+}
+.hero-stat .lbl {
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 2px;
+  letter-spacing: 0.3px;
+}
+
+/* ── QUICK CARDS ── */
+.quick-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+.quick-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 18px 16px;
+  cursor: pointer;
+  transition: transform 0.15s, background 0.15s;
+  -webkit-user-select: none;
+  user-select: none;
+  active-scale: 0.97;
+}
+.quick-card:active { transform: scale(0.96); background: var(--surface); }
+.quick-card .qicon { font-size: 24px; margin-bottom: 10px; }
+.quick-card .qtitle { font-size: 13.5px; font-weight: 600; color: var(--cream); margin-bottom: 3px; }
+.quick-card .qdesc { font-size: 11.5px; color: var(--muted); line-height: 1.4; }
+.quick-card.full { grid-column: 1/-1; display:flex; align-items:center; gap:14px; padding:16px 18px; }
+.quick-card.full .qicon { margin-bottom:0; font-size:22px; }
+.quick-card.full .qtitle { font-size:14px; }
+
+/* ── CHECKLIST ── */
+.check-item {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+.check-ring {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--sage-dim);
+  border: 2px solid var(--sage);
+  display: flex; align-items:center; justify-content:center;
+  flex-shrink: 0;
+  font-size: 14px;
+  color: var(--sage);
+}
+.check-info h4 { font-size: 13.5px; font-weight: 500; color: var(--cream); margin-bottom: 2px; }
+.check-info p  { font-size: 11.5px; color: var(--muted); line-height: 1.4; }
+
+/* ── LP SELECTOR ── */
+.lp-selector {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 18px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: none;
+}
+.lp-selector::-webkit-scrollbar { display:none; }
+.lp-btn {
+  flex-shrink: 0;
+  padding: 9px 18px;
+  border-radius: 22px;
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'Outfit', sans-serif;
+}
+.lp-btn.active {
+  background: var(--rose-dim);
+  border-color: rgba(212,130,106,0.4);
+  color: var(--rose);
+}
+
+.lp-panel { display:none; }
+.lp-panel.active { display:block; animation: slideUp 0.25s ease; }
+
+.lp-hero-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 22px 20px;
+  margin-bottom: 14px;
+}
+.lp-pill {
+  display: inline-block;
+  background: var(--rose-dim);
+  color: var(--rose);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
+.lp-pill.green { background: var(--sage-dim); color: var(--sage); }
+.lp-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--cream);
+  margin-bottom: 14px;
+  line-height: 1.2;
+}
+.lp-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+.lp-meta-chip {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 5px 10px;
+  font-size: 11.5px;
+  color: var(--muted);
+}
+.lp-meta-chip strong { color: var(--cream); }
+
+.obj-list { display:flex; flex-direction:column; gap:8px; }
+.obj-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+.obj-num {
+  background: var(--rose);
+  color: white;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: 700;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+  margin-top:1px;
+}
+
+/* Procedure cards (mobile-friendly, no table) */
+.proc-list { display:flex; flex-direction:column; gap:10px; }
+.proc-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px 16px 14px;
+}
+.proc-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.proc-stage {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: var(--rose);
+  background: var(--rose-dim);
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+.proc-time {
+  font-size: 11px;
+  color: var(--muted);
+  background: rgba(255,255,255,0.06);
+  padding: 4px 9px;
+  border-radius: 20px;
+}
+.proc-body { font-size: 13px; color: var(--muted); line-height: 1.55; margin-bottom:6px; }
+.proc-chips { display:flex; gap:6px; flex-wrap:wrap; }
+.proc-chip {
+  font-size: 11px;
+  padding: 3px 9px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.06);
+  color: var(--faint);
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+}
+.proc-chip.skill { background: var(--sage-dim); color: var(--sage); font-family:'Outfit',sans-serif; font-style:normal; font-size:10.5px; }
+
+/* Version toggle */
+.ver-toggle {
+  display: flex;
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 4px;
+  margin-bottom: 16px;
+  gap: 4px;
+}
+.ver-btn {
+  flex: 1;
+  text-align: center;
+  padding: 8px;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'Outfit', sans-serif;
+}
+.ver-btn.active { background: var(--card); color: var(--cream); box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+
+.ver-panel { display:none; }
+.ver-panel.active { display:block; animation: slideUp 0.2s ease; }
+
+/* ── JOURNAL ── */
+.journal-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 20px 18px;
+  margin-bottom: 12px;
+  cursor: pointer;
+}
+.j-date {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--rose);
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.j-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 21px;
+  font-weight: 600;
+  color: var(--cream);
+  margin-bottom: 10px;
+  line-height: 1.2;
+}
+.j-body { font-size: 13px; color: var(--muted); line-height: 1.65; }
+.j-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  font-size: 12.5px;
+  color: var(--rose);
+  font-weight: 500;
+}
+.j-toggle .arrow { transition: transform 0.25s; font-style:normal; }
+.j-toggle.open .arrow { transform: rotate(180deg); }
+.j-reflection {
+  display: none;
+  margin-top: 14px;
+  padding: 14px 16px;
+  background: rgba(212,130,106,0.07);
+  border-radius: 12px;
+  border-left: 3px solid var(--rose);
+  font-size: 13px;
+  color: var(--cream);
+  line-height: 1.65;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+}
+.j-reflection.open { display: block; animation: slideUp 0.2s ease; }
+
+/* ── RESOURCES ── */
+.res-filter {
+  display: flex;
+  gap: 7px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  margin-bottom: 18px;
+  scrollbar-width: none;
+}
+.res-filter::-webkit-scrollbar { display:none; }
+.res-f-btn {
+  flex-shrink: 0;
+  padding: 8px 16px;
+  border-radius: 20px;
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: 'Outfit', sans-serif;
+  transition: all 0.2s;
+}
+.res-f-btn.active {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.2);
+  color: var(--cream);
+}
+
+.res-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px 18px;
+  margin-bottom: 10px;
+  transition: opacity 0.2s;
+}
+.res-card.hidden { display:none; }
+.res-cat-label {
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--rose);
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+.res-card h4 { font-size: 14px; font-weight: 500; color: var(--cream); margin-bottom: 3px; }
+.res-type-label { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+.res-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(212,130,106,0.1);
+  border: 1px solid rgba(212,130,106,0.2);
+  border-radius: 10px;
+  padding: 9px 12px;
+  text-decoration: none;
+  color: var(--rose);
+  font-size: 12px;
+  font-weight: 500;
+  transition: background 0.15s;
+}
+.res-link:active { background: rgba(212,130,106,0.2); }
+.res-link::before { content:'🔗'; font-size:12px; }
+
+/* ── BOTTOM TAB BAR ── */
+.tabbar {
+  flex-shrink: 0;
+  height: calc(var(--tab-h) + var(--safe-bot));
+  padding-bottom: var(--safe-bot);
+  background: rgba(15,13,11,0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: flex-start;
+  padding-top: 8px;
+  position: relative;
+  z-index: 20;
+}
+.tab {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+  padding: 4px 2px;
+  -webkit-user-select: none;
+  user-select: none;
+  transition: opacity 0.15s;
+}
+.tab:active { opacity: 0.6; }
+.tab-icon { font-size: 22px; transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1); }
+.tab.active .tab-icon { transform: scale(1.15); }
+.tab-label {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: 0.2px;
+  transition: color 0.2s;
+}
+.tab.active .tab-label { color: var(--rose); }
+.tab-dot {
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--rose);
+  opacity: 0;
+  transition: opacity 0.2s;
+  position: absolute;
+  bottom: calc(var(--safe-bot) + 2px);
+}
+.tab.active .tab-dot { opacity: 1; }
+
+/* ── READING TEXT CARD ── */
+.text-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 18px 18px;
+  margin-bottom: 14px;
+}
+.text-card p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--cream);
+  margin-bottom: 12px;
+}
+.text-card p:last-child { margin-bottom: 0; }
+.text-source { font-size: 11px; color: var(--faint); font-style: italic; margin-top: 12px; padding-top:10px; border-top:1px solid var(--border); }
+
+.vocab-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+.vocab-chip {
+  background: var(--rose-dim);
+  border: 1px solid rgba(212,130,106,0.2);
+  border-radius: 10px;
+  padding: 6px 12px;
+  font-size: 12px;
+  color: var(--cream);
+}
+.vocab-chip strong { color: var(--rose); }
+
+/* ── DIVIDER ── */
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 18px 0;
+}
+
+/* ── LABEL ── */
+.label-sm {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 600;
+  margin-bottom: 12px;
+  display: block;
+}
+
+/* ── ASSESSMENT CARD ── */
+.assess-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 18px;
+  margin-bottom: 10px;
+}
+.assess-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.45;
+}
+.assess-row:last-child { border-bottom: none; padding-bottom: 0; }
+.assess-row:first-child { padding-top: 0; }
+.assess-n {
+  width: 22px; height: 22px;
+  background: var(--rose-dim);
+  border-radius: 50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--rose);
+  flex-shrink:0;
+}
+
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div>
+      <div class="topbar-title">TESOL Portfolio</div>
+      <div class="topbar-sub">Nour Karoui · Feb–Apr 2026</div>
+    </div>
+    <div class="topbar-badge">5/6 ✓</div>
+  </div>
+
+  <!-- SCROLL AREA -->
+  <div class="scroll-area" id="scrollArea">
+
+    <!-- ── HOME ── -->
+    <div class="page active" id="page-home">
+      <div class="hero-card">
+        <div class="hero-eyebrow">TESOL Methods · Saturday Sessions</div>
+        <div class="hero-name">Nour<br>Karoui</div>
+        <div class="hero-role">Teaching English to Speakers of Other Languages</div>
+        <div class="hero-stats">
+          <div class="hero-stat"><div class="num">3</div><div class="lbl">Lesson Plans</div></div>
+          <div class="hero-stat"><div class="num">5</div><div class="lbl">Journal Entries</div></div>
+          <div class="hero-stat"><div class="num">20</div><div class="lbl">Resources</div></div>
+        </div>
+      </div>
+
+      <div class="quick-grid">
+        <div class="quick-card" onclick="goTo('lessons')">
+          <div class="qicon">📝</div>
+          <div class="qtitle">Lesson Plans</div>
+          <div class="qdesc">3 plans across grades 7–9</div>
+        </div>
+        <div class="quick-card" onclick="goTo('journal')">
+          <div class="qicon">📔</div>
+          <div class="qtitle">Journal</div>
+          <div class="qdesc">5 dated reflections</div>
+        </div>
+        <div class="quick-card" onclick="goTo('resources')">
+          <div class="qicon">🔗</div>
+          <div class="qtitle">Resources</div>
+          <div class="qdesc">20 teaching links</div>
+        </div>
+        <div class="quick-card" onclick="goTo('checklist')">
+          <div class="qicon">✅</div>
+          <div class="qtitle">Checklist</div>
+          <div class="qdesc">All requirements met</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CHECKLIST ── -->
+    <div class="page" id="page-checklist">
+      <div class="section-title">Checklist</div>
+      <div class="section-sub">All 8 requirements complete</div>
+
+      <div class="check-item">
+        <div class="check-ring">✓</div>
+        <div class="check-info">
+          <h4>Class Notes on TESOL Methods</h4>
+          <p>Dated notes across 5 Saturday sessions</p>
+        </div>
+      </div>
+      <div class="check-item">
+        <div class="check-ring">✓</div>
+        <div class="check-info">
+          <h4>Lesson Plan #1 — Draft & Revised</h4>
+          <p>"What's in a Name" · Grade 7</p>
+        </div>
+      </div>
+      <div class="check-item">
+        <div class="check-ring">✓</div>
+        <div class="check-info">
+          <h4>5 Journal Reflections</h4>
+          <p>5 dated paragraph entries · Feb–Mar 2026</p>
+        </div>
+      </div>
+      <div class="check-item">
+        <div class="check-ring">✓</div>
+        <div class="check-info">
+          <h4>Lesson Plan #2 — Draft & Revised</h4>
+          <p>1–3 Integrated Skills · "Dual World of Dreams"</p>
+        </div>
+      </div>
+      <div class="check-item">
+        <div class="check-ring">✓</div>
+        <div class="check-info">
+          <h4>Lesson Plan #3 — Draft & Revised</h4>
+          <p>Reading Skill · "The Ship That Disappeared"</p>
+        </div>
+      </div>
+      <div class="check-item">
+        <div class="check-ring">✓</div>
+        <div class="check-info">
+          <h4>Resources — 15+ Listed</h4>
+          <p>Category, activity type, and link for each</p>
+        </div>
+      </div>
+      <div class="check-item">
+        <div class="check-ring">✓</div>
+        <div class="check-info">
+          <h4>Session Attendance</h4>
+          <p>5 out of 6 sessions attended (min: 4)</p>
+        </div>
+      </div>
+      <div class="check-item">
+        <div class="check-ring">✓</div>
+        <div class="check-info">
+          <h4>Saturday Sessions Schedule</h4>
+          <p>February – April 2026 block completed</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── LESSONS ── -->
+    <div class="page" id="page-lessons">
+      <div class="section-title">Lesson Plans</div>
+      <div class="section-sub">3 plans · Grades 7, 8 & 9</div>
+
+      <div class="lp-selector">
+        <div class="lp-btn active" data-lp="lp1">LP 1 · Names</div>
+        <div class="lp-btn" data-lp="lp2">LP 2 · Dreams</div>
+        <div class="lp-btn" data-lp="lp3">LP 3 · Titanic</div>
+      </div>
+
+      <!-- LP1 -->
+      <div class="lp-panel active" id="lp1">
+        <div class="ver-toggle">
+          <div class="ver-btn active" data-lp="lp1" data-ver="draft">Draft</div>
+          <div class="ver-btn" data-lp="lp1" data-ver="revised">Revised</div>
+        </div>
+
+        <div class="ver-panel active" id="lp1-draft">
+          <div class="lp-hero-card">
+            <div class="lp-pill">Names & Culture</div>
+            <div class="lp-title">My Name and Its Meaning</div>
+            <div class="lp-meta-row">
+              <div class="lp-meta-chip"><strong>7th Grade</strong></div>
+              <div class="lp-meta-chip">English</div>
+              <div class="lp-meta-chip">2/2/2026</div>
+              <div class="lp-meta-chip">~55 min</div>
+            </div>
+            <span class="label-sm">Objectives</span>
+            <div class="obj-list">
+              <div class="obj-row"><div class="obj-num">1</div>Understand that names can have cultural and personal meanings.</div>
+              <div class="obj-row"><div class="obj-num">2</div>Talk about their own name in simple English.</div>
+              <div class="obj-row"><div class="obj-num">3</div>Ask and answer questions about names.</div>
+              <div class="obj-row"><div class="obj-num">4</div>Write a short paragraph about their name.</div>
+            </div>
+          </div>
+
+          <span class="label-sm">Lesson Procedure</span>
+          <div class="proc-list">
+            <div class="proc-card">
+              <div class="proc-top"><div class="proc-stage">Name Brainstorm</div><div class="proc-time">8–10 min</div></div>
+              <div class="proc-body">Teacher writes "What can a name tell us?" Students share ideas — culture, family, meaning. Teacher records on board.</div>
+              <div class="proc-chips"><span class="proc-chip skill">Listening</span><span class="proc-chip skill">Speaking</span></div>
+            </div>
+            <div class="proc-card">
+              <div class="proc-top"><div class="proc-stage">Name Matching</div><div class="proc-time">12 min</div></div>
+              <div class="proc-body">Teacher gives list of names + meanings. Students match each. (Amira→princess, Yessmine→flower, Noor→light)</div>
+              <div class="proc-chips"><span class="proc-chip skill">Reading</span><span class="proc-chip skill">Thinking</span></div>
+            </div>
+            <div class="proc-card">
+              <div class="proc-top"><div class="proc-stage">Find Someone Who…</div><div class="proc-time">15 min</div></div>
+              <div class="proc-body">Students walk around finding classmates who: have a meaningful name, were named after family, know their name's origin.</div>
+              <div class="proc-chips"><span class="proc-chip skill">Speaking</span><span class="proc-chip skill">Interaction</span></div>
+            </div>
+            <div class="proc-card">
+              <div class="proc-top"><div class="proc-stage">Personal Writing</div><div class="proc-time">15 min</div></div>
+              <div class="proc-body">Students write "My Name and Its Story" — who chose it, its meaning, why it matters to them.</div>
+              <div class="proc-chips"><span class="proc-chip skill">Writing</span></div>
+            </div>
+            <div class="proc-card">
+              <div class="proc-top"><div class="proc-stage">Exit Ticket</div><div class="proc-time">5–8 min</div></div>
+              <div class="proc-body">"One new thing I learned about names today is…" Teacher collects for formative assessment.</div>
+              <div class="proc-chips"><span class="proc-chip skill">Reflection</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ver-panel" id="lp1-revised">
+          <div class="lp-hero-card">
+            <div class="lp-pill green">Revised Version</div>
+            <div class="lp-title">My Name and Its Meaning</div>
+            <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:16px;">The revised version maintains the same structure with explicitly separated assessment criteria.</p>
+          </div>
+          <span class="label-sm">Assessment</span>
+          <div class="assess-card">
+            <div class="assess-row"><div class="assess-n">1</div>Observe participation during the brainstorm activity.</div>
+            <div class="assess-row"><div class="assess-n">2</div>Check answers in the name matching task.</div>
+            <div class="assess-row"><div class="assess-n">3</div>Monitor speaking during "Find Someone Who…"</div>
+            <div class="assess-row"><div class="assess-n">4</div>Evaluate written paragraph for clarity and correctness.</div>
+            <div class="assess-row"><div class="assess-n">5</div>Review exit tickets to assess understanding.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LP2 -->
+      <div class="lp-panel" id="lp2">
+        <div class="ver-toggle">
+          <div class="ver-btn active" data-lp="lp2" data-ver="plan">Plan</div>
+          <div class="ver-btn" data-lp="lp2" data-ver="materials">Materials</div>
+        </div>
+
+        <div class="ver-panel active" id="lp2-plan">
+          <div class="lp-hero-card">
+            <div class="lp-pill">Integrated Skills</div>
+            <div class="lp-title">The Dual World of Dreams</div>
+            <div class="lp-meta-row">
+              <div class="lp-meta-chip"><strong>9th Grade</strong></div>
+              <div class="lp-meta-chip">Lower Intermediate</div>
+              <div class="lp-meta-chip">60 min</div>
+            </div>
+            <div style="font-size:13px;color:var(--muted);line-height:1.55;">
+              <strong style="color:var(--cream);">Goal:</strong> Distinguish between "sleep dream" and "life dream"; express personal goals fluently.<br><br>
+              <strong style="color:var(--cream);">Vocab:</strong> Vivid, Nightmare, Ambition, Obstacle, Achieve, Symbolize<br><br>
+              <strong style="color:var(--cream);">Grammar:</strong> Past Simple vs. Future Intentions (want to / hope to)
+            </div>
+          </div>
+
+          <span class="label-sm">Lesson Procedure</span>
+          <div class="proc-list">
+            <div class="proc-card">
+              <div class="proc-top"><div class="proc-stage">1 · Hook</div><div class="proc-time">10 min</div></div>
+              <div class="proc-body">Create a "Dream" mind-map. Pictionary: student draws "Nightmare" / "Success/Goal" — class guesses.</div>
+              <div class="proc-chips"><span class="proc-chip">S→S</span><span class="proc-chip skill">Top-Down Intro</span></div>
+            </div>
+            <div class="proc-card">
+              <div class="proc-top"><div class="proc-stage">2 · Listening</div><div class="proc-time">10 min</div></div>
+              <div class="proc-body">Teacher reads "The Dreamer's Story." Students show finger signals: 1 = sleep dream, 2 = life goal.</div>
+              <div class="proc-chips"><span class="proc-chip">T→S</span><span class="proc-chip skill">Global Understanding</span></div>
+            </div>
+            <div class="proc-card">
+              <div class="proc-top"><div class="proc-stage">3 · Vocabulary</div><div class="proc-time">10 min</div></div>
+              <div class="proc-body">Introduce 6 key words. Match vocabulary slips to definitions (Ambition = A strong desire to achieve).</div>
+              <div class="proc-chips"><span class="proc-chip">T→S</span><span class="proc-chip skill">Bottom-Up Support</span></div>
+            </div>
+            <div class="proc-card">
+              <div class="proc-top"><div class="proc-stage">4 · Reading</div><div class="proc-time">10 min</div></div>
+              <div class="proc-body">Provide "Architect of Dreams" text. Underline one obstacle and circle one achievement.</div>
+              <div class="proc-chips"><span class="proc-chip">S</span><span class="proc-chip skill">Scanning</span></div>
+            </div>
+            <div class="proc-card">
+              <div class="proc-top"><div class="proc-stage">5 · Speaking</div><div class="proc-time">10 min</div></div>
+              <div class="proc-body">Class Mingle using "Find Someone Who" grid. "Do you dream of living abroad?"</div>
+              <div class="proc-chips"><span class="proc-chip">S→S</span><span class="proc-chip skill">Fluency Practice</span></div>
+            </div>
+            <div class="proc-card">
+              <div class="proc-top"><div class="proc-stage">6 · Writing</div><div class="proc-time">10 min</div></div>
+              <div class="proc-body">Dream Capsule: write a 10-line paragraph to your future self about your #1 goal.</div>
+              <div class="proc-chips"><span class="proc-chip">S</span><span class="proc-chip skill">Consolidation</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ver-panel" id="lp2-materials">
+          <span class="label-sm">Materials</span>
+          <div class="assess-card" style="margin-bottom:14px;">
+            <div class="assess-row"><div class="assess-n">📋</div>Whiteboard & Markers — for mind map and Pictionary</div>
+            <div class="assess-row"><div class="assess-n">📄</div>Printed Handouts — text + speaking grid + exit ticket</div>
+            <div class="assess-row"><div class="assess-n">✂️</div>Small Paper Slips — Pictionary words (Nightmare, Career…)</div>
+            <div class="assess-row"><div class="assess-n">🎙</div>Teacher's Script — short listening story</div>
+            <div class="assess-row"><div class="assess-n">⏱</div>Timer/Clock — keep Mingle and Pictionary on schedule</div>
+          </div>
+          <span class="label-sm">Assessment</span>
+          <div class="assess-card">
+            <div class="assess-row"><div class="assess-n">👂</div>Monitor correct use of "Do you…?" vs "Did you…?" during mingle.</div>
+            <div class="assess-row"><div class="assess-n">🗣</div>Ask 3 students to share their Dream Capsule goal with the class.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LP3 -->
+      <div class="lp-panel" id="lp3">
+        <div class="ver-toggle">
+          <div class="ver-btn active" data-lp="lp3" data-ver="draft3">Draft</div>
+          <div class="ver-btn" data-lp="lp3" data-ver="revised3">Revised</div>
+        </div>
+
+        <div class="ver-panel active" id="lp3-draft3">
+          <div class="lp-hero-card">
+            <div class="lp-pill">Reading Skill</div>
+            <div class="lp-title">The Ship That Disappeared</div>
+            <div class="lp-meta-row">
+              <div class="lp-meta-chip"><strong>8th Grade</strong></div>
+              <div class="lp-meta-chip">27/03/2026</div>
+              <div class="lp-meta-chip">50 min</div>
+              <div class="lp-meta-chip">The Titanic</div>
+            </div>
+            <div class="obj-list">
+              <div class="obj-row"><div class="obj-num">1</div>Understand the main idea of a text.</div>
+              <div class="obj-row"><div class="obj-num">2</div>Scan for specific information.</div>
+              <div class="obj-row"><div class="obj-num">3</div>Learn and use new vocabulary in context.</div>
+              <div class="obj-row"><div class="obj-num">4</div>Answer comprehension questions.</div>
+              <div class="obj-row"><div class="obj-num">5</div>Produce a short written response.</div>
+            </div>
+          </div>
+
+          <span class="label-sm">Lesson Procedure</span>
+          <div class="proc-list">
+            <div class="proc-card">
+              <div class="proc-top"><div class="proc-stage">Pre-Reading</div><div class="proc-time">5 min</div></div>
+              <div class="proc-body">Show silent video/images of Titanic wreck. Ask: "What do you think happened?"</div>
+              <div class="proc-chips"><span class="proc-chip">T→S</span><span class="proc-chip skill">Activate Prior Knowledge</span></div>
+            </div>
+            <div class="proc-card">
+              <div class="proc-top"><div class="proc-stage">Vocabulary</div><div class="proc-time">8 min</div></div>
+              <div class="proc-body">Introduce 6 key words using matching or pictures.</div>
+              <div class="proc-chips"><span class="proc-chip">T↔S</span><span class="proc-chip skill">Pre-teach Vocab</span></div>
+            </div>
+            <div class="proc-card">
+              <div class="proc-top"><div class="proc-stage">While-Reading (Scan)</div><div class="proc-time">7 min</div></div>
+              <div class="proc-body">Give the text. Students find and underline target words.</div>
+              <div class="proc-chips"><span class="proc-chip">S</span><span class="proc-chip skill">Scanning</span></div>
+            </div>
+            <div class="proc-card">
+              <div class="proc-top"><div class="proc-stage">While-Reading (Gist)</div><div class="proc-time">7 min</div></div>
+              <div class="proc-body">Students read silently. "What is the text about?" — fast reading for overall comprehension.</div>
+              <div class="proc-chips"><span class="proc-chip">S→T</span><span class="proc-chip skill">Gist Reading</span></div>
+            </div>
+            <div class="proc-card">
+              <div class="proc-top"><div class="proc-stage">Detailed Reading</div><div class="proc-time">10 min</div></div>
+              <div class="proc-body">Comprehension questions — True/False + short answers.</div>
+              <div class="proc-chips"><span class="proc-chip">S→S</span><span class="proc-chip skill">Comprehension</span></div>
+            </div>
+            <div class="proc-card">
+              <div class="proc-top"><div class="proc-stage">Post-Reading</div><div class="proc-time">8 min</div></div>
+              <div class="proc-body">Imagine you found an object from the Titanic — describe its owner.</div>
+              <div class="proc-chips"><span class="proc-chip">S</span><span class="proc-chip skill">Creative Writing</span></div>
+            </div>
+            <div class="proc-card">
+              <div class="proc-top"><div class="proc-stage">Closure</div><div class="proc-time">5 min</div></div>
+              <div class="proc-body">"3 words – 2 facts – 1 feeling" — quick review and informal assessment.</div>
+              <div class="proc-chips"><span class="proc-chip">T↔S</span><span class="proc-chip skill">Review</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ver-panel" id="lp3-revised3">
+          <div class="lp-hero-card">
+            <div class="lp-pill green">Revised · B1 · 30/03/2026</div>
+            <div class="lp-title">The Ship That Disappeared</div>
+          </div>
+          <span class="label-sm">Reading Text (B1)</span>
+          <div class="text-card">
+            <p>In April 1912, a famous ship called the Titanic left England on its first voyage to New York. The ship carried more than 2,000 passengers and people believed it was unsinkable.</p>
+            <p>However, on a cold night, the Titanic hit a huge iceberg. The ice made a hole in the ship and water started to enter. Slowly, the ship began to sink.</p>
+            <p>There were not enough lifeboats for everyone. Many people did not survive. After a few hours, the Titanic disappeared under the sea.</p>
+            <p>For 73 years, the ship stayed at the bottom of the ocean. In 1985, a group of explorers finally found it again.</p>
+            <div class="text-source">Adapted from National Geographic Kids – Titanic</div>
+          </div>
+          <span class="label-sm">Target Vocabulary</span>
+          <div class="vocab-row">
+            <div class="vocab-chip"><strong>Voyage</strong> — long sea journey</div>
+            <div class="vocab-chip"><strong>Unsinkable</strong> — impossible to sink</div>
+            <div class="vocab-chip"><strong>Lifeboat</strong> — emergency boat</div>
+            <div class="vocab-chip"><strong>Wreck</strong> — destroyed ship remains</div>
+            <div class="vocab-chip"><strong>Explorer</strong> — searches lost places</div>
+            <div class="vocab-chip"><strong>Disaster</strong> — sudden great loss</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── JOURNAL ── -->
+    <div class="page" id="page-journal">
+      <div class="section-title">Journal</div>
+      <div class="section-sub">5 reflections · Feb 21 – Mar 28</div>
+
+      <div class="journal-card">
+        <div class="j-date">Saturday, February 21st, 2026</div>
+        <div class="j-title">The Six Principles of TESOL</div>
+        <div class="j-body">The introductory session focused on the Six Principles of TESOL as the framework for effective language instruction. We learned that the foundation of a good classroom is knowing your learners — their linguistic levels and personal interests. A teacher's role is to foster a low-anxiety environment and design lessons that integrate the four skills while remaining flexible.</div>
+        <div class="j-toggle" onclick="toggleJ(this)">
+          <span>💭 Read Reflection</span><span class="arrow">▾</span>
+        </div>
+        <div class="j-reflection">This session shifted my perspective on what it means to be a "good" teacher. I previously thought teaching was simply about following a lesson plan perfectly. Now, I realize that my ability to adapt in real-time to my students' needs is far more important. The idea of creating a "safe space" for mistakes really resonated with me — if students are too afraid to speak, they won't learn.</div>
+      </div>
+
+      <div class="journal-card">
+        <div class="j-date">Saturday, February 28th, 2026</div>
+        <div class="j-title">L2 Writing Development</div>
+        <div class="j-body">This class focused on L2 Writing development and the distinction between input and output skills. A key concept was the "Writing Process Approach" — treating writing as a recursive cycle of prewriting, drafting, revising, and editing rather than a single assignment. We also explored the "Sandwich" concept of layering ideas logically. <em style="color:var(--rose);font-size:12px;">(Self-study — absent)</em></div>
+        <div class="j-toggle" onclick="toggleJ(this)">
+          <span>💭 Read Reflection</span><span class="arrow">▾</span>
+        </div>
+        <div class="j-reflection">Even though I missed the live discussion, reviewing the "process approach" was eye-opening. I used to view writing as a stressful, one-shot task. Seeing it as a cycle of improvement makes it much more approachable for students. I now understand that students need a solid "input" foundation before they can produce high-quality "output."</div>
+      </div>
+
+      <div class="journal-card">
+        <div class="j-date">Saturday, March 7th, 2026</div>
+        <div class="j-title">Reading Strategies & Memory</div>
+        <div class="j-body">Today's session covered three primary reading models: Bottom-up (decoding words), Top-down (using background knowledge), and the Interactive Model — considered most effective as it combines both. We also discussed using visual aids, repetition, and prior knowledge connections to improve memory and context clue recognition.</div>
+        <div class="j-toggle" onclick="toggleJ(this)">
+          <span>💭 Read Reflection</span><span class="arrow">▾</span>
+        </div>
+        <div class="j-reflection">I found the interactive model of reading to be the most practical tool for my future classroom. It taught me that I shouldn't just focus on vocabulary lists — I need to help students use what they already know to solve linguistic puzzles. Reading is an active process of constructing meaning, and I want to choose texts that are relevant to my students' lives.</div>
+      </div>
+
+      <div class="journal-card">
+        <div class="j-date">Saturday, March 14th, 2026</div>
+        <div class="j-title">Assessment in Language Teaching</div>
+        <div class="j-body">This session covered the three assessment types: Diagnostic (pre-tests), Formative (ongoing feedback), and Summative (final grades). We discussed Validity vs. Reliability, and learned that a good assessment should be authentic and fair — reflecting actual language abilities rather than just test-taking skill.</div>
+        <div class="j-toggle" onclick="toggleJ(this)">
+          <span>💭 Read Reflection</span><span class="arrow">▾</span>
+        </div>
+        <div class="j-reflection">Before this session, I viewed assessment as a "judgment" on the student. Now, I see it as a diagnostic tool for the teacher. Formative assessment seems like the best way to support students because it allows for correction during the learning process. I want my future assessments to feel like a supportive check-in that builds student confidence.</div>
+      </div>
+
+      <div class="journal-card">
+        <div class="j-date">Saturday, March 28th, 2026</div>
+        <div class="j-title">Oral Skills & Classroom Management</div>
+        <div class="j-body">The final session focused on Academic Oral Skills and Classroom Management — three pillars: Environment (physical setup), Student (praise and clear rules), and Lesson (pacing and engagement). We practiced non-verbal signals like the "Rhythm Clap" and "Give me 5." We also briefly discussed AI tools like ChatGPT for brainstorming while maintaining academic integrity.</div>
+        <div class="j-toggle" onclick="toggleJ(this)">
+          <span>💭 Read Reflection</span><span class="arrow">▾</span>
+        </div>
+        <div class="j-reflection">The most inspiring part of today was seeing how firm discipline and fun can go hand-in-hand. The management signals we practiced showed me that I can regulate the "energy" of the room without being a "loud" teacher. I feel much more confident knowing that a successful lesson is a balance of authentic communication and clear, consistent structure.</div>
+      </div>
+    </div>
+
+    <!-- ── RESOURCES ── -->
+    <div class="page" id="page-resources">
+      <div class="section-title">Resources</div>
+      <div class="section-sub">20 curated teaching links</div>
+
+      <div class="res-filter">
+        <div class="res-f-btn active" data-f="all">All</div>
+        <div class="res-f-btn" data-f="visual">Visual</div>
+        <div class="res-f-btn" data-f="performative">Performative</div>
+        <div class="res-f-btn" data-f="technology">Technology</div>
+        <div class="res-f-btn" data-f="written">Written</div>
+        <div class="res-f-btn" data-f="craft">Craft</div>
+        <div class="res-f-btn" data-f="group">Group</div>
+        <div class="res-f-btn" data-f="experiential">Experiential</div>
+        <div class="res-f-btn" data-f="evaluation">Evaluation</div>
+        <div class="res-f-btn" data-f="artistic">Artistic</div>
+      </div>
+
+      <div id="resCards">
+        <div class="res-card" data-cat="visual"><div class="res-cat-label">Visual Representations</div><h4>Infographics in the Classroom</h4><div class="res-type-label">Infographic · Teacher Toolkit</div><a class="res-link" href="https://www.calacademy.org/educators/infographics-in-the-classroom-teacher-toolkit" target="_blank">Open Resource</a></div>
+        <div class="res-card" data-cat="visual"><div class="res-cat-label">Visual Representations</div><h4>Mind Map Ideas for Kids & Teachers</h4><div class="res-type-label">Mind Map · Brainstorming Tool</div><a class="res-link" href="https://edrawmind.wondershare.com/examples/kids-mind-map-examples.html" target="_blank">Open Resource</a></div>
+        <div class="res-card" data-cat="performative"><div class="res-cat-label">Performative Methods</div><h4>Learning Through Puppetry & Play</h4><div class="res-type-label">Puppet Show · Teacher's Resource</div><a class="res-link" href="https://moa.ubc.ca/wp-content/uploads/2021/01/TeachersResource_ShadowsStrings_Nov-2020-web.pdf" target="_blank">Open Resource</a></div>
+        <div class="res-card" data-cat="performative"><div class="res-cat-label">Performative Methods</div><h4>Role Play as a Teaching Strategy</h4><div class="res-type-label">Role-Playing · Research & Guide</div><a class="res-link" href="https://faculty.ksu.edu.sa/sites/default/files/roleplay_article.pdf" target="_blank">Open Resource</a></div>
+        <div class="res-card" data-cat="technology"><div class="res-cat-label">Technological Approaches</div><h4>Podcasting as a Teaching Tool</h4><div class="res-type-label">Podcast Creation · Georgian College</div><a class="res-link" href="https://www.georgiancollege.ca/ctlae/teaching-and-learning/podcasting-as-a-teaching-tool/" target="_blank">Open Resource</a></div>
+        <div class="res-card" data-cat="technology"><div class="res-cat-label">Technological Approaches</div><h4>Complete Guide to Student Blogging</h4><div class="res-type-label">Blog Writing · Student Publishing</div><a class="res-link" href="https://help.edublogs.org/user-guide/" target="_blank">Open Resource</a></div>
+        <div class="res-card" data-cat="written"><div class="res-cat-label">Written Work</div><h4>Classroom Newsletter Templates</h4><div class="res-type-label">Newsletter · Adobe Express</div><a class="res-link" href="https://www.adobe.com/express/templates/newsletter/classroom" target="_blank">Open Resource</a></div>
+        <div class="res-card" data-cat="written"><div class="res-cat-label">Written Work</div><h4>How to Create an Effective Brochure</h4><div class="res-type-label">Travel Guide / Brochure Writing</div><a class="res-link" href="https://extensionpubs.unl.edu/publication/g2028/pdf/view/g2028-2011.pdf" target="_blank">Open Resource</a></div>
+        <div class="res-card" data-cat="craft"><div class="res-cat-label">Craft-Based Projects</div><h4>Digital & Physical Scrapbooking</h4><div class="res-type-label">Scrapbooking · Memory Book</div><a class="res-link" href="https://www.scrapbookmax.com/scrapbooking-teachers-school/" target="_blank">Open Resource</a></div>
+        <div class="res-card" data-cat="craft"><div class="res-cat-label">Craft-Based Projects</div><h4>Origami, Math & Hands-On Exploration</h4><div class="res-type-label">Origami · Hands-On Learning</div><a class="res-link" href="https://www.berry.edu/articles/blog/2025/hands-on-math" target="_blank">Open Resource</a></div>
+        <div class="res-card" data-cat="group"><div class="res-cat-label">Group Activities</div><h4>Middle School Mock Debate</h4><div class="res-type-label">Debate · Video Resource</div><a class="res-link" href="https://www.teachertube.com/videos/middle-school-mock-debate-443769" target="_blank">Open Resource</a></div>
+        <div class="res-card" data-cat="group"><div class="res-cat-label">Group Activities</div><h4>QR Code Scavenger Hunt</h4><div class="res-type-label">Scavenger Hunt · Interactive Game</div><a class="res-link" href="https://www.invitado.nl/en/solutions/type/family-day" target="_blank">Open Resource</a></div>
+        <div class="res-card" data-cat="experiential"><div class="res-cat-label">Experiential Learning</div><h4>20 Science Activities for Kids</h4><div class="res-type-label">Experiment · Hands-On Science</div><a class="res-link" href="https://www.brighthorizons.com/article/education/science-for-preschoolers" target="_blank">Open Resource</a></div>
+        <div class="res-card" data-cat="experiential"><div class="res-cat-label">Experiential Learning</div><h4>Classroom Time Capsule Guide</h4><div class="res-type-label">Time Capsule · Reflective Project</div><a class="res-link" href="https://www.westminsterchildrensuniversity.co.uk/create-a-time-capsule/" target="_blank">Open Resource</a></div>
+        <div class="res-card" data-cat="evaluation"><div class="res-cat-label">Evaluation & Reflection</div><h4>Austin's Butterfly: Excellence through Critique</h4><div class="res-type-label">Peer Review · Feedback Model</div><a class="res-link" href="https://publicpolicydesign.blog.gov.uk/2021/10/14/achieving-policy-excellence-with-austins-butterfly/" target="_blank">Open Resource</a></div>
+        <div class="res-card" data-cat="evaluation"><div class="res-cat-label">Evaluation & Reflection</div><h4>Guide to Reflective Journals</h4><div class="res-type-label">Learning Log · Reflection Journal</div><a class="res-link" href="https://www.niu.edu/citl/resources/guides/instructional-guide/reflective-journals-and-learning-logs.shtml" target="_blank">Open Resource</a></div>
+        <div class="res-card" data-cat="technology"><div class="res-cat-label">Technology Integration</div><h4>What is Digital Storytelling?</h4><div class="res-type-label">Digital Storytelling · Full Process Guide</div><a class="res-link" href="https://www.liverpool.ac.uk/centre-for-innovation-in-education/resources/all-resources/digital-storytelling.html" target="_blank">Open Resource</a></div>
+        <div class="res-card" data-cat="technology"><div class="res-cat-label">Technology Integration</div><h4>Code.org: Free K–12 CS Curriculum</h4><div class="res-type-label">Coding Project · Digital Literacy</div><a class="res-link" href="https://code.org/" target="_blank">Open Resource</a></div>
+        <div class="res-card" data-cat="artistic"><div class="res-cat-label">Artistic Expression</div><h4>Elements of Dance: Classroom Lesson</h4><div class="res-type-label">Performance Art · Kennedy Center</div><a class="res-link" href="https://www.kennedy-center.org/education/resources-for-educators/classroom-resources/lessons-and-activities/lessons/6-8/elements-of-dance/" target="_blank">Open Resource</a></div>
+        <div class="res-card" data-cat="artistic"><div class="res-cat-label">Artistic Expression</div><h4>Collaborative Murals: Methods & Materials</h4><div class="res-type-label">Mural Painting · SVA</div><a class="res-link" href="https://sva.edu/features/collaborative-murals-in-methods-and-materials" target="_blank">Open Resource</a></div>
+      </div>
+    </div>
+
+  </div><!-- end scroll-area -->
+
+  <!-- BOTTOM TAB BAR -->
+  <div class="tabbar">
+    <div class="tab active" data-page="home">
+      <div class="tab-icon">🌸</div>
+      <div class="tab-label">Home</div>
+    </div>
+    <div class="tab" data-page="checklist">
+      <div class="tab-icon">✅</div>
+      <div class="tab-label">Checklist</div>
+    </div>
+    <div class="tab" data-page="lessons">
+      <div class="tab-icon">📝</div>
+      <div class="tab-label">Lessons</div>
+    </div>
+    <div class="tab" data-page="journal">
+      <div class="tab-icon">📔</div>
+      <div class="tab-label">Journal</div>
+    </div>
+    <div class="tab" data-page="resources">
+      <div class="tab-icon">🔗</div>
+      <div class="tab-label">Resources</div>
+    </div>
+    <div class="tab-dot"></div>
+  </div>
+
+</div><!-- end app -->
+
+<script>
+// ── TAB NAVIGATION ──
+const pages = document.querySelectorAll('.page');
+const tabs  = document.querySelectorAll('.tab');
+
+function goTo(id) {
+  pages.forEach(p => p.classList.remove('active'));
+  tabs.forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  tabs.forEach(t => { if (t.dataset.page === id) t.classList.add('active'); });
+  document.getElementById('scrollArea').scrollTo(0, 0);
+}
+
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => goTo(tab.dataset.page));
+});
+
+// ── LP SELECTOR ──
+document.querySelectorAll('.lp-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.lp-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.lp-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.lp).classList.add('active');
+  });
+});
+
+// ── VERSION TOGGLE ──
+document.querySelectorAll('.ver-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const lp = btn.dataset.lp;
+    const ver = btn.dataset.ver;
+    const panel = btn.closest('.lp-panel');
+    panel.querySelectorAll('.ver-btn').forEach(b => b.classList.remove('active'));
+    panel.querySelectorAll('.ver-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(lp + '-' + ver).classList.add('active');
+  });
+});
+
+// ── JOURNAL REFLECTION ──
+function toggleJ(el) {
+  const ref = el.nextElementSibling;
+  const open = ref.classList.contains('open');
+  ref.classList.toggle('open');
+  el.classList.toggle('open');
+  const span = el.querySelector('span:first-child');
+  span.textContent = open ? '💭 Read Reflection' : '💬 Hide Reflection';
+}
+
+// ── RESOURCE FILTER ──
+document.querySelectorAll('.res-f-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.res-f-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const f = btn.dataset.f;
+    document.querySelectorAll('.res-card').forEach(card => {
+      card.classList.toggle('hidden', f !== 'all' && card.dataset.cat !== f);
+    });
+  });
+});
+</script>
+</body>
+</html>
